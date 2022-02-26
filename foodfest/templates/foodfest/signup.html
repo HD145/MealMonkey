@@ -1,0 +1,43 @@
+{% extends 'foodfest/base.html' %}
+{% block css %}  {% endblock %}
+{% block body %}  
+
+
+{% if msg %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>{{msg}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+{% endif %}
+
+
+<div class="mx-auto shadow mt-5" style="width: 500px;">
+    <div class="container">
+        <h2> Register yourself </h2>
+    
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label mt-3">Enter your unique username</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" name="name" required>
+          </div>
+          
+          <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Enter your email</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" name="emailsave" required>
+            
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Enter your password</label>
+            <input type="password" class="form-control" id="exampleFormControlInput1" name="password" required>
+            
+          </div>
+          {{captcha}}
+          <button type="submit" class="btn btn-primary mb-4">Register</button><br>
+          Already have account, <a href="signin"><b>Login</b></a>
+    </form>
+  </div>
+  <br><br>
+
+{% endblock %}

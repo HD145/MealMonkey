@@ -1,0 +1,39 @@
+{% extends 'foodfest/base.html'%}
+
+{% block body %}
+
+<div class="container my-3">
+    <h2>Search results : </h2>
+    {% if msg %}
+   <p>No search results</p>
+    Your search query : <b>{{query}}</b> did not match any documents. <br>
+    Suggestions:
+    <ul>
+    <li>Make sure that all words are spelled correctly.</li>
+    <li>Try more general keywords.</li>
+   <li> Try fewer keywords.</li>
+   <li> Try different keywords.</li>
+    </li>
+    </ul>
+{% endif %}
+
+<div class="container my-3">
+  <div class="row">
+    {% for food in foods %}
+    
+    <div class="card mx-4 mb-3" style="width: 18rem;">
+      <img src='/media/{{food.image}}' class="card-img-top" alt="..." style="height: 200px; width: 284px;  margin-left: -11px;">
+      <div class="card-body">
+        <h5 class="card-title">{{food.product_name}}</h5>
+        <p class="card-text">{{food.desc | slice:"0:120"}}...</p>
+        <p class="card-text">Price- <strong>{{food.price}}</strong></p>
+        <a href="{% url 'orderpost' food.id %}" class="btn btn-primary">Add to cart</a>
+        <a href="{% url 'vieworder' food.id %}" class="btn btn-primary">View</a>
+      </div>
+  </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+{% endblock %}

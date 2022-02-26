@@ -1,0 +1,117 @@
+{% extends 'foodfest/base.html'%}
+
+{% block body %}
+
+{% if msg %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>{{msg}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+{% endif %}
+
+
+
+{% if not orders %}
+<div class="alert alert-danger" role="alert">
+  <span style="font-family: cursive;"> You haven't ordered anything yet. Please Do order something and enjoy our service. </span>
+</div>
+
+<div class="card-group mt-3 ">
+  <div class="card mx-5" style="height: 300px; width: 350px;">
+    <img src="https://img3.mashed.com/img/gallery/you-should-never-fold-pizza-slices-heres-why/l-intro-1602105889.jpg" style="height: 300px; width: 350px;" class="card-img-top" alt="...">
+  </div>
+  <div class="card mx-5" style="height: 300px; width: 350px;">
+    <img src="https://th.bing.com/th/id/OIP.ddTLzJ1oBx5DGzUqmnIjSgHaFj?pid=ImgDet&rs=1" class="card-img-top" style="height: 300px; width: 350px;"  alt="...">
+  </div>
+  <div class="card mx-5" style="height: 300px; width: 350px;">
+    <img src="https://www.primrose-bakery.co.uk/shop/content/images/thumbs/0002612_large-14-round-vanilla-cake.jpeg" style="height: 300px; width: 350px;" class="card-img-top" alt="...">
+  </div>
+</div>
+
+
+{% else %}
+
+<h2 style="text-align: center;" class="mt-2">Your orders</h2>
+
+<table class="table table-danger table-hover mt-3">
+    <thead>
+      <tr>
+        <th scope="col">OrderNo.</th>
+        <th scope="col">Order Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Track Your Order</th>
+        <th scope="col">View Your Order</th>
+        <th scope="col">Delete Your Order</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{order.name}}</td>
+        <td>{{order.price}}</td>
+        <td><a href="#" class="btn btn-danger">Track</a></td>
+        <td><a href="#" class="btn btn-danger">View</a></td>
+        <td><a href="{% url 'deleteorder' order.order_id %}" class="btn btn-danger">Delete</a></td>
+      </tr>
+    {% endfor %}
+      
+    </tbody>
+  </table>
+  <p>
+      Total price = {{cost}}
+  </p>
+
+<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">
+  Order Now
+</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Fill up the below form to place your order</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/person_details" method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label mt-3">Enter receiver's name</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" name="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label mt-3">Enter mobile number</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" name="mobile" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label mt-3">Enter receiving point</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" name="address" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label mt-3">Enter postal id</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" name="postal" required>
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label mt-3">Total price - {{cost}}</label>
+          </div>
+       
+      </div>
+      <div class="modal-footer">
+        
+        <button type="submit" class="btn btn-primary">Place Order</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+  
+{% endif %}
+{% endblock %}
+
+

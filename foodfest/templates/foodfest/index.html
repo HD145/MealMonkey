@@ -1,0 +1,39 @@
+{% extends 'foodfest/base.html'%}
+
+{% block body %}
+
+{% if user.is_authenticated %}
+<h2 class="container my-3" style="text-align: center; color: red;">
+  <u><em>{{user}}</em>, welcome to <strong>MealMonkey</strong></u>
+</h2>
+
+{% else %}
+<h2 class="container my-3" style="text-align: center; color: red;">
+  <u>Do Login to have your meal with MealMonkey</u>
+</h2>
+{% endif %}
+<div class="container my-3">
+  <div class="row">
+
+    {% for food in foods %}
+    
+    <div class="card mx-4 mb-3" style="width: 18rem;">
+      <img src='/media/{{food.image}}' class="card-img-top" alt="..." style="height: 200px; width: 284px;  margin-left: -11px;">
+      <div class="card-body">
+        <h5 class="card-title">{{food.product_name}}</h5>
+        <p class="card-text">{{food.desc | slice:"0:120"}}...</p>
+        <p class="card-text">Price- <strong>{{food.price}}</strong></p>
+        {% if user.is_authenticated %}
+        <a href="{% url 'orderpost' food.id %}" class="btn btn-primary">Add to cart</a>
+        <a href="{% url 'vieworder' food.id %}" class="btn btn-primary">View</a>
+        {% else %}
+        <a href="{% url 'signin' %}" class="btn btn-primary">Login</a>
+        {% endif %}
+      </div>
+  </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+{% endblock %}
